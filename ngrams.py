@@ -1,9 +1,3 @@
-"""
-ngrams.py
-Adapted from code by Paul Ebreo
-Last changed 2017-10-16 by Amir Zeldes
-"""
-
 from random import choice, random
 from nltk import word_tokenize
 import argparse
