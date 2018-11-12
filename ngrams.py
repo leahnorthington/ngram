@@ -102,37 +102,43 @@ def generate_from_file(context_length, training_file, output_length=60):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file")
-parser.add_argument('--starter', action="store", dest="input", default="", help="Word to begin ngram.")
+parser.add_argument('--starter', action="store", dest="input", help="Word to begin ngram.")
 
 options = parser.parse_args()
 
 starter = options.input
-starter = starter.lower()
-# print(starter)
 
-starter = word_tokenize(starter)
+if starter is not None:
+    starter = starter.lower()
+    # print(starter)
+    starter = word_tokenize(starter)
+
 punctuation = {'.', '?', '!'}
 
-if len(starter) != 2:
-    if len(starter) < 2:
-        print("Input length is too short!")
-        sys.exit()
-    elif starter[-1] in punctuation:
-        print("Your input is too long! Removing the following words:")
-        x = 0
-        while len(starter) > 3:
-            print(starter[x])
-            starter.pop(x)
-            x += x
-        print("Input length is now correct. Beginning to generate bigram.")
-    else:
-        print("Your input is too long! Removing the following words:")
-        x = 0
-        while len(starter) > 2:
-            print(starter[x])
-            starter.pop(x)
-            x += x
-        print("Input length is now correct. Beginning to generate bigram.")
+if starter is not None:
+    if len(starter) != 2:
+        if len(starter) < 2:
+            print("Input length is too short!")
+            sys.exit()
+        elif len(starter) == 3:
+            if starter[-1] in punctuation:
+                pass
+        elif starter[-1] in punctuation:
+            print("Your input is too long! Removing the following words:")
+            x = 0
+            while len(starter) > 3:
+                print(starter[x])
+                starter.pop(x)
+                x += x
+            print("Input length is now correct. Beginning to generate bigram.")
+        else:
+            print("Your input is too long! Removing the following words:")
+            x = 0
+            while len(starter) > 2:
+                print(starter[x])
+                starter.pop(x)
+                x += x
+            print("Input length is now correct. Beginning to generate bigram.")
 
 generate_from_file(2, options.file)
 
